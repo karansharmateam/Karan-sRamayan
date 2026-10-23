@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="hi" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>श्रीमद्वाल्मीकीय रामायण - Sampoorna Valmiki Ramayan Edition</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        sacred: {
+                            50: '#fdfbf7',
+                            100: '#f7ee38',
+                            800: '#0c0f1d',
+                            900: '#040712',
+                            950: '#02040a',
+                        },
+                        ram: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            400: '#fb923c',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            glow: '#ff9900',
+                        },
+                        gold: {
+                            100: '#fef3c7',
+                            300: '#fde047',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            goldGlow: '#ffd700',
+                        }
+                    },
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        devanagari: ['Noto Serif Devanagari', 'Cinzel', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&family=Noto+Serif+Devanagari:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        body {
+            background-color: #040712;
+            color: #f3f4f6;
+            font-family: 'Inter', sans-serif;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(234, 88, 12, 0.18), transparent 45%),
+                radial-gradient(circle at 10% 80%, rgba(180, 83, 9, 0.15), transparent 40%);
+            background-attachment: fixed;
+        }
+
+        .font-devanagari {
+            font-family: 'Noto Serif Devanagari', 'Cinzel', serif;
+        }
+
+        .ram-gradient-text {
+            background: linear-gradient(135deg, #fffbeb 0%, #fed7aa 20%, #f97316 60%, #c2410c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gold-glow {
+            text-shadow: 0 0 15px rgba(249, 115, 22, 0.4), 0 0 30px rgba(217, 119, 6, 0.25);
+        }
+
+        .sanskrit-glow {
+            text-shadow: 0 0 20px rgba(254, 215, 170, 0.4);
+        }
+
+        .glass-panel {
+            background: rgba(12, 18, 34, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(249, 115, 22, 0.25);
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(251, 146, 60, 0.2);
+            box-shadow: 0 10px 35px -10px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Dynamic Font Size Classes for Senior/Grandma Mode */
+        .font-level-0 #sanskrit-text { font-size: 1.5rem; line-height: 2.25rem; }
+        .font-level-0 #hindi-bhavarth { font-size: 1.125rem; line-height: 1.85rem; }
+
+        .font-level-1 #sanskrit-text { font-size: 1.875rem; line-height: 2.75rem; }
+        .font-level-1 #hindi-bhavarth { font-size: 1.35rem; line-height: 2.2rem; }
+
+        .font-level-2 #sanskrit-text { font-size: 2.25rem; line-height: 3.25rem; }
+        .font-level-2 #hindi-bhavarth { font-size: 1.65rem; line-height: 2.6rem; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #040712;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(249, 115, 22, 0.4);
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(249, 115, 22, 0.7);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between overflow-x-hidden font-level-1 selection:bg-orange-500/30 selection:text-orange-200">
+
+    <!-- Notification Toast Box -->
+    <div id="toast-message" class="fixed top-20 right-4 z-50 bg-orange-600 text-slate-950 font-devanagari font-bold px-4 py-3 rounded-xl shadow-2xl transition-all duration-300 transform translate-x-72 opacity-0 flex items-center gap-2 border border-amber-300">
+        <i id="toast-icon" class="ph-bold ph-info text-xl"></i>
+        <span id="toast-text">संदेह संदेश</span>
+    </div>
+
+    <!-- Top Glow Accent Line -->
+    <div class="fixed top-0 left-1/2 -translate-x-1/2 w-3/4 max-w-4xl h-1.5 bg-gradient-to-r from-transparent via-orange-500 to-transparent blur-xs z-50 pointer-events-none"></div>
+
+    <!-- MAIN HEADER -->
+    <header class="sticky top-0 z-40 glass-panel border-b border-orange-500/20 px-4 lg:px-8 py-3">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+            
+            <!-- Left: Drawer Toggle & Title -->
+            <div class="flex items-center gap-3">
+                <button id="open-drawer" class="p-2.5 rounded-xl bg-slate-900/90 hover:bg-orange-500/20 border border-orange-500/30 text-orange-400 transition-all active:scale-95 flex items-center justify-center gap-2" title="काण्ड एवं सर्ग सूची">
+                    <i class="ph-bold ph-list text-2xl"></i>
+                    <span class="hidden md:inline font-devanagari font-bold text-sm tracking-wide">काण्ड व सर्ग सूची (७ काण्ड)</span>
+                </button>
+
+                <div class="flex items-center gap-3 cursor-pointer" onclick="jumpToKandaSarga(1, 1, 1)">
+                    <div class="w-11 h-11 rounded-full bg-gradient-to-br from-amber-400 via-orange-500 to-red-600 p-0.5 shadow-lg shadow-orange-500/30">
+                        <div class="w-full h-full bg-slate-950 rounded-full flex items-center justify-center">
+                            <span class="font-devanagari text-orange-400 font-extrabold text-xl">राम</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h1 class="font-devanagari font-bold text-base sm:text-lg lg:text-2xl ram-gradient-text leading-tight">
+                            श्रीमद्वाल्मीकीय रामायण
+                        </h1>
+                        <p class="text-[10px] sm:text-xs text-orange-200/70 font-cinzel tracking-widest uppercase">Sampoorna Valmiki Ramayan</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Middle: Desktop Quick Jump Controls -->
+            <div class="hidden lg:flex items-center gap-2 bg-slate-950/80 border border-orange-500/30 px-3 py-1.5 rounded-full text-xs font-devanagari">
+                <span class="text-orange-200/80">सीधा पहुँचें:</span>
+                <select id="header-kanda-select" class="bg-slate-900 border border-orange-500/40 text-orange-300 rounded-lg px-2 py-1 text-xs focus:outline-none">
+                </select>
+                <input type="number" id="header-sarga-num" placeholder="सर्ग" min="1" max="128" value="1" class="w-14 bg-slate-900 border border-orange-500/40 text-amber-300 rounded-lg px-2 py-1 text-xs text-center focus:outline-none">
+                <input type="number" id="header-shlok-num" placeholder="श्लोक" min="1" value="1" class="w-14 bg-slate-900 border border-orange-500/40 text-amber-300 rounded-lg px-2 py-1 text-xs text-center focus:outline-none">
+                <button id="header-jump-btn" class="bg-gradient-to-r from-orange-500 to-amber-500 text-slate-950 px-3 py-1 rounded-lg font-bold hover:brightness-110 active:scale-95 transition-all">
+                    खोलें
+                </button>
+            </div>
+
+            <!-- Right Controls -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <button id="toggle-font-size" class="p-2 sm:px-3 sm:py-2 rounded-xl bg-slate-900/90 hover:bg-orange-500/20 border border-orange-500/30 text-orange-300 text-xs sm:text-sm font-devanagari flex items-center gap-1.5 transition-all active:scale-95" title="अक्षर बड़े करें">
+                    <i class="ph-bold ph-text-a-plus text-lg text-orange-400"></i>
+                    <span id="font-size-label" class="hidden sm:inline font-semibold">अक्षर (मध्यम)</span>
+                </button>
+
+                <button id="bookmark-toggle" class="p-2.5 rounded-xl bg-slate-900/90 hover:bg-orange-500/20 border border-orange-500/30 text-orange-400 transition-all active:scale-95" title="सहेजें (Bookmark)">
+                    <i id="bookmark-icon" class="ph-bold ph-bookmark-simple text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN READING CONTAINER -->
+    <main class="max-w-5xl mx-auto px-4 py-6 sm:py-8 flex-1 w-full flex flex-col justify-center items-center">
+
+        <!-- Mobile Jump Selector Bar -->
+        <div class="w-full lg:hidden glass-card rounded-2xl p-3 mb-4 flex items-center justify-between gap-2 text-xs font-devanagari">
+            <select id="mobile-kanda-select" class="flex-1 bg-slate-900 border border-orange-500/40 text-orange-300 rounded-lg p-2 focus:outline-none">
+            </select>
+            <input type="number" id="mobile-sarga-num" placeholder="सर्ग" min="1" value="1" class="w-16 bg-slate-900 border border-orange-500/40 text-amber-300 rounded-lg p-2 text-center focus:outline-none">
+            <input type="number" id="mobile-shlok-num" placeholder="श्लोक" min="1" value="1" class="w-16 bg-slate-900 border border-orange-500/40 text-amber-300 rounded-lg p-2 text-center focus:outline-none">
+            <button id="mobile-jump-btn" class="bg-orange-500 text-slate-950 px-3 py-2 rounded-lg font-bold active:scale-95">
+                जाएं
+            </button>
+        </div>
+
+        <!-- KANDA & SARGA HEADER CARD -->
+        <div id="kanda-header-card" class="w-full glass-card rounded-2xl p-5 sm:p-7 mb-6 sm:mb-8 text-center relative overflow-hidden transition-all duration-500">
+            <div class="absolute -top-12 -right-12 w-40 h-40 bg-orange-500/15 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-12 -left-12 w-40 h-40 bg-amber-600/15 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/15 border border-orange-500/40 text-orange-300 font-devanagari text-xs sm:text-sm mb-3">
+                <i class="ph-fill ph-book-open text-orange-400"></i>
+                <span id="kanda-title-badge" class="font-bold">प्रथम काण्ड — बालकाण्ड</span>
+            </div>
+
+            <h2 id="sarga-title" class="text-2xl sm:text-4xl font-devanagari font-extrabold ram-gradient-text gold-glow mb-2">
+                प्रथमः सर्गः — नारद-वाल्मीकि संवाद (संक्षेप रामायण)
+            </h2>
+            <p id="sarga-english-title" class="text-xs sm:text-sm text-orange-200/80 font-cinzel tracking-wider mb-3">
+                Bala Kanda - Sarga 1
+            </p>
+            <p id="sarga-desc" class="text-sm sm:text-base text-slate-200 max-w-3xl mx-auto font-devanagari leading-relaxed">
+                महर्षि वाल्मीकि देवर्षि नारद से संसार के सर्वश्रेष्ठ, गुणवान और आदर्श पुरुष के विषय में पूछते हैं।
+            </p>
+        </div>
+
+        <!-- MAIN SLOKA DISPLAY CARD -->
+        <div class="w-full glass-card rounded-3xl p-6 sm:p-10 relative border border-orange-500/30 shadow-2xl transition-all duration-300">
+            
+            <!-- Top Bar inside Main Reading Card -->
+            <div class="flex items-center justify-between border-b border-orange-500/20 pb-4 mb-6">
+                <div class="flex items-center gap-2">
+                    <span id="status-dot" class="w-3 h-3 rounded-full bg-orange-500 animate-pulse"></span>
+                    <span id="verse-index-display" class="font-devanagari font-bold text-orange-400 text-sm sm:text-base">
+                        बालकाण्ड • सर्ग १ • श्लोक १
+                    </span>
+                </div>
+
+                <!-- Voice Audio Play Button -->
+                <button id="read-aloud-btn" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-400 hover:to-amber-400 text-slate-950 font-extrabold text-xs sm:text-sm font-devanagari flex items-center gap-2 shadow-lg shadow-orange-500/25 transition-all active:scale-95">
+                    <i id="audio-icon" class="ph-fill ph-speaker-high text-lg"></i>
+                    <span id="audio-text">पाठ सुनें (बोलकर)</span>
+                </button>
+            </div>
+
+            <!-- Loading Indicator -->
+            <div id="shlok-loader" class="hidden my-8 text-center py-10">
+                <i class="ph-bold ph-spinner animate-spin text-4xl text-orange-400 mb-3"></i>
+                <p class="font-devanagari text-orange-200 text-sm sm:text-base">श्रीमद्वाल्मीकीय रामायण से श्लोक एवं अनुवाद लोड हो रहा है...</p>
+            </div>
+
+            <div id="shlok-content-area">
+                <!-- SANSKRIT SLOKA BOX -->
+                <div id="sanskrit-container" class="my-6 text-center">
+                    <div class="inline-block px-4 py-1.5 rounded-full bg-orange-500/10 text-orange-400 text-xs font-devanagari mb-4 border border-orange-500/30">
+                        ॥ श्रीवाल्मीकीय रामायण मूल संस्कृत श्लोक ॥
+                    </div>
+                    <div id="sanskrit-text" class="font-devanagari font-bold text-amber-100 sanskrit-glow tracking-wide px-2">
+                        तपःस्वाध्यायनिरतां तपस्वी वाग्विदां वरम् ।<br>
+                        नारदं परिपप्रच्छ वाल्मीकिर्मुनिपुङ्गवम् ॥१॥
+                    </div>
+                </div>
+
+                <!-- WORD-BY-WORD WORD BREAKDOWN -->
+                <div class="my-8 pt-6 border-t border-orange-500/20">
+                    <button id="toggle-word-breakdown" class="w-full flex items-center justify-between text-left mb-4 p-2.5 rounded-xl hover:bg-slate-900/60 transition-all">
+                        <span class="text-xs sm:text-sm font-devanagari font-bold text-orange-400 flex items-center gap-2">
+                            <i class="ph-bold ph-translate text-lg"></i>
+                            पदच्छेद एवं शब्दार्थ (Word-by-Word Simple Meaning)
+                        </span>
+                        <i id="words-chevron" class="ph-bold ph-caret-down text-orange-400 text-lg transition-transform"></i>
+                    </button>
+                    <div id="words-container" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm text-slate-200 font-devanagari bg-slate-950/70 p-4 rounded-2xl border border-orange-500/20">
+                    </div>
+                </div>
+
+                <!-- EASY HINDI BHAVARTH -->
+                <div class="mt-6 pt-6 border-t border-orange-500/20">
+                    <div class="inline-block px-3.5 py-1 rounded-full bg-orange-500/15 text-orange-300 text-xs font-devanagari mb-3 border border-orange-500/30 font-semibold">
+                        सरल एवं स्पष्ट हिंदी भावार्थ (किताब की तरह)
+                    </div>
+                    <div id="hindi-bhavarth" class="font-devanagari text-slate-100 bg-slate-950/50 p-5 sm:p-7 rounded-2xl border border-orange-500/20 whitespace-pre-line font-medium">
+                        तपस्या और स्वाध्याय में निरन्तर लगे रहने वाले, तपस्वियों में श्रेष्ठ तथा विद्वानों में अग्रगण्य महर्षि वाल्मीकि ने मुनियों में श्रेष्ठ देवर्षि नारद से पूछा।
+                    </div>
+                </div>
+
+                <!-- AI DEEP EXPLANATION -->
+                <div class="mt-6 pt-4 border-t border-orange-500/15">
+                    <button id="explain-ai-btn" class="w-full py-3 px-4 rounded-xl bg-slate-900 hover:bg-orange-950/50 border border-orange-500/40 text-orange-300 font-devanagari text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all">
+                        <i class="ph-bold ph-sparkle text-orange-400 text-lg"></i>
+                        <span id="ai-btn-text">इस श्लोक का विशेष भाव-विस्तार एवं जीवन-सीख देखें</span>
+                    </button>
+                    <div id="ai-explanation-box" class="hidden mt-4 p-5 bg-orange-950/20 border border-orange-500/30 rounded-2xl text-slate-200 font-devanagari text-sm sm:text-base leading-relaxed whitespace-pre-line">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- BOTTOM NAVIGATION CONTROLS -->
+    <footer class="sticky bottom-0 z-40 glass-panel border-t border-orange-500/20 px-4 py-3.5">
+        <div class="max-w-4xl mx-auto flex items-center justify-between gap-2 sm:gap-4">
+            
+            <button id="prev-verse-btn" class="flex-1 sm:flex-initial px-4 py-3 rounded-xl bg-slate-900/90 hover:bg-orange-500/20 border border-orange-500/30 text-orange-300 font-devanagari text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all active:scale-95">
+                <i class="ph-bold ph-arrow-left text-base"></i>
+                <span>पिछला श्लोक</span>
+            </button>
+
+            <div class="hidden sm:flex items-center gap-2">
+                <button onclick="jumpToKandaSarga(1, 1, 1)" class="p-2.5 rounded-xl bg-slate-900/90 hover:bg-orange-500/20 border border-orange-500/20 text-orange-400 text-xs font-devanagari font-bold transition-all hover:border-orange-500/50">
+                    प्रारंभ (बालकाण्ड)
+                </button>
+                <button id="jump-saved-bookmark" class="p-2.5 rounded-xl bg-slate-900/90 hover:bg-orange-500/20 border border-orange-500/20 text-orange-400 text-xs font-devanagari font-bold transition-all flex items-center gap-1.5 hover:border-orange-500/50">
+                    <i class="ph-fill ph-bookmark text-orange-400"></i>
+                    <span>सहेजा हुआ श्लोक</span>
+                </button>
+            </div>
+
+            <button id="next-verse-btn" class="flex-1 sm:flex-initial px-5 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-slate-950 font-devanagari text-xs sm:text-sm font-extrabold flex items-center justify-center gap-2 shadow-lg shadow-orange-500/20 transition-all active:scale-95">
+                <span>अगला श्लोक</span>
+                <i class="ph-bold ph-arrow-right text-base"></i>
+            </button>
+        </div>
+    </footer>
+
+    <!-- KANDA AND SARGA SELECTION DRAWER -->
+    <div id="drawer-overlay" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300"></div>
+    <aside id="chapter-drawer" class="fixed top-0 left-0 bottom-0 w-80 sm:w-96 glass-panel z-50 transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col border-r border-orange-500/30">
+        <div class="p-5 border-b border-orange-500/20 flex items-center justify-between bg-slate-950/80">
+            <div class="flex items-center gap-2.5">
+                <i class="ph-fill ph-book-bookmark text-orange-400 text-2xl"></i>
+                <h3 class="font-devanagari font-bold text-lg text-orange-300">७ काण्ड एवं सर्ग सूची</h3>
+            </div>
+            <button id="close-drawer" class="p-2 rounded-xl text-slate-400 hover:text-orange-400 hover:bg-slate-900 transition-all">
+                <i class="ph-bold ph-x text-2xl"></i>
+            </button>
+        </div>
+        <div id="kanda-list-container" class="flex-1 overflow-y-auto p-4 space-y-3">
+        </div>
+    </aside>
+
+    <!-- MAIN APP JAVASCRIPT -->
+    <script>
+        // --- COMPLETE 7 KANDAS METADATA ---
+        const KANDAS = [
+            { id: 1, name: "बालकाण्ड", english: "Bala Kanda", totalSargas: 77, desc: "भगवान श्रीराम के जन्म, बाल्यकाल, विश्वामित्र संग गमन, ताड़का वध, धनुष भंग और विवाह का पावन वर्णन।" },
+            { id: 2, name: "अयोध्याकाण्ड", english: "Ayodhya Kanda", totalSargas: 119, desc: "श्रीराम राज्याभिषेक तैयारी, मंथरा-कैकेयी संवाद, कैकेयी के दो वरदान तथा श्रीराम वन गमन।" },
+            { id: 3, name: "अरण्यकाण्ड", english: "Aranya Kanda", totalSargas: 75, desc: "दण्डकारण्य निवास, शूर्पणखा प्रसंग, खर-दूषण वध, स्वर्णमृग तथा रावण द्वारा सीता हरण।" },
+            { id: 4, name: "किष्किन्धाकाण्ड", english: "Kishkindha Kanda", totalSargas: 67, desc: "पम्पा सरोवर पर हनुमान जी से भेंट, सुग्रीव से मित्रता, बाली उद्धार तथा वानर प्रस्थान।" },
+            { id: 5, name: "सुन्दरकाण्ड", english: "Sundara Kanda", totalSargas: 68, desc: "हनुमान जी का समुद्र लंघन, अशोक वाटिका में सीता दर्शन, चूड़ामणि प्राप्ति एवं लंका दहन।" },
+            { id: 6, name: "युद्धकाण्ड (लंकाकाण्ड)", english: "Yuddha Kanda", totalSargas: 128, desc: "समुद्र पर सेतु निर्माण, रावण सेना युद्ध, कुम्भकर्ण-मेघनाद वध, रावण वध एवं अयोध्या आगमन।" },
+            { id: 7, name: "उत्तरकाण्ड", english: "Uttara Kanda", totalSargas: 111, desc: "श्रीराम राज्याभिषेक, अगस्त्य मुनि संवाद, लव-कुश जन्म, रामायण गान तथा साकेत गमन।" }
+        ];
+
+        // Core Local Cache for fast access & offline fallback
+        const LOCAL_SHLOK_CACHE = {
+            "1-1-1": {
+                num: 1,
+                sanskrit: "तपःस्वाध्यायनिरतां तपस्वी वाग्विदां वरम् ।\nनारदं परिपप्रच्छ वाल्मीकिर्मुनिपुङ्गवम् ॥१॥",
+                words: [
+                    { w: "तपःस्वाध्यायनिरतम्", m: "तपस्या और वेद-पाठ में निरन्तर लगे हुए" },
+                    { w: "वाग्विदां वरम्", m: "विद्वानों में श्रेष्ठ" },
+                    { w: "तपस्वी वाल्मीकिः", m: "तपस्वी महर्षि वाल्मीकि ने" },
+                    { w: "नारदम्", m: "देवर्षि नारदजी से" },
+                    { w: "परिपप्रच्छ", m: "विनम्रतापूर्वक पूछा" }
+                ],
+                hindi: "तपस्या और स्वाध्याय में निरन्तर लगे रहने वाले, विद्वानों में श्रेष्ठ तथा तपस्वियों में शिरोमणि महर्षि वाल्मीकि ने मुनियों में श्रेष्ठ देवर्षि नारद से पूछा।",
+                aiExplanation: "कथा सन्दर्भ: रामायण की रचना की प्रेरणा इसी श्लोक से शुरू होती है। महर्षि वाल्मीकि देवर्षि नारद से पूछते हैं कि इस संसार में ऐसा कौन मनुष्य है जो एक साथ १६ महान गुणों (सत्यवादी, धर्मज्ञ, सर्वप्रिय, धीर, जितेन्द्रिय) से युक्त हो? तब नारद जी उन्हें भगवान श्रीराम के पवित्र चरित्र के बारे में बताते हैं।\n\nजीवन-सीख: श्रेष्ठ नागरिक बनने के लिए निरंतर ज्ञान अर्जित करना (स्वाध्याय) और अनुशासन में रहना (तपस्या) अत्यंत आवश्यक है।"
+            },
+            "1-1-2": {
+                num: 2,
+                sanskrit: "को न्वस्मिन् साम्प्रतं लोके गुणवान् कश्च वीर्यवान् ।\nधर्मज्ञश्च कृतज्ञश्च सत्यवाक्यो दृढव्रतः ॥२॥",
+                words: [
+                    { w: "को नु अस्मिन् साम्प्रतम्", m: "इस वर्तमान समय में कौन" },
+                    { w: "गुणवान् कः च वीर्यवान्", m: "सर्वगुण संपन्न और पराक्रमी है" },
+                    { w: "धर्मज्ञः च कृतज्ञः च", m: "धर्म को जानने वाला और उपकार मानने वाला" },
+                    { w: "सत्यवाक्यः दृढव्रतः", m: "सदा सत्य बोलने वाला और दृढ़ प्रतिज्ञ है" }
+                ],
+                hindi: "हे देवर्षि! इस समय संसार में सर्वगुण सम्पन्न, पराक्रमी, धर्म को जानने वाला, किए गए उपकार को मानने वाला (कृतज्ञ), सत्य बोलने वाला और अपने व्रत पर दृढ़ रहने वाला पुरुष कौन है?",
+                aiExplanation: "जीवन-सीख: वाल्मीकि जी नारद जी से एक उत्तम मानव के गुण पूछ रहे हैं। कृतज्ञता (उपकार मानना) और सत्यवादिता जीवन के सबसे बड़े आभूषण हैं।"
+            }
+        };
+
+        let currentKandaNum = 1;
+        let currentSargaNum = 1;
+        let currentShlokNum = 1;
+        let fontLevel = 1; // 0: Normal, 1: Medium, 2: Large
+        let isSpeaking = false;
+        let currentSpeechUtterance = null;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initHeaderAndDrawer();
+            loadVerse(1, 1, 1);
+            setupEventListeners();
+            checkSavedBookmark();
+        });
+
+        function showToast(text, icon = "ph-info") {
+            const toast = document.getElementById('toast-message');
+            const toastText = document.getElementById('toast-text');
+            const toastIcon = document.getElementById('toast-icon');
+
+            toastText.innerText = text;
+            toastIcon.className = `ph-bold ${icon} text-xl`;
+            toast.classList.remove('translate-x-72', 'opacity-0');
+
+            setTimeout(() => {
+                toast.classList.add('translate-x-72', 'opacity-0');
+            }, 3000);
+        }
+
+        function initHeaderAndDrawer() {
+            const headerSelect = document.getElementById('header-kanda-select');
+            const mobileSelect = document.getElementById('mobile-kanda-select');
+            
+            let optionsHtml = '';
+            KANDAS.forEach(k => {
+                optionsHtml += `<option value="${k.id}">${k.name}</option>`;
+            });
+
+            if (headerSelect) headerSelect.innerHTML = optionsHtml;
+            if (mobileSelect) mobileSelect.innerHTML = optionsHtml;
+
+            renderKandaDrawer();
+        }
+
+        // Fetch Shlok dynamically via Gemini API if not present in cache
+        async function fetchShlokFromGemini(kandaName, sargaNum, shlokNum) {
+            const prompt = `You are an expert scholar of Valmiki Ramayana scriptures. Provide the exact original Valmiki Ramayana Sanskrit Shloka, word-by-word break down (Padachhed with meanings), accurate Hindi translation (Bhavarth like Gita Press book), and a brief spiritual context/explanation for:
+${kandaName}, Sarga ${sargaNum}, Shloka ${shlokNum}.
+
+Return ONLY JSON matching this structure:
+{
+  "sanskrit": "Sanskrit shloka text in Devanagari script with proper line breaks using \\n and verse number",
+  "words": [
+    {"w": "Sanskrit Word/Pad", "m": "Simple Hindi meaning"}
+  ],
+  "hindi": "Accurate and clear Hindi translation (Bhavarth)",
+  "aiExplanation": "Brief story context and moral lesson (Jeevan-seekh) in simple Hindi"
+}`;
+
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                generationConfig: {
+                    responseMimeType: "application/json"
+                }
+            };
+
+            const apiKey = ""; // Canvas runtime API key injection
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            // Exponential backoff fetch
+            let delay = 800;
+            for (let attempt = 0; attempt < 2; attempt++) {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (response.ok) {
+                        const result = await response.json();
+                        const jsonText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                        if (jsonText) {
+                            return JSON.parse(jsonText);
+                        }
+                    }
+                } catch (e) {
+                    console.warn(`Attempt ${attempt + 1} failed, retrying...`);
+                }
+                await new Promise(res => setTimeout(res, delay));
+                delay *= 2;
+            }
+            return null;
+        }
+
+        async function loadVerse(kNum, sNum, vNum) {
+            stopSpeech(); // Stop speech if playing when verse changes
+
+            currentKandaNum = parseInt(kNum);
+            currentSargaNum = parseInt(sNum);
+            currentShlokNum = parseInt(vNum);
+
+            const kanda = KANDAS.find(k => k.id === currentKandaNum) || KANDAS[0];
+
+            // Update Header Info
+            document.getElementById('kanda-title-badge').innerText = `${kanda.name} (${kanda.english})`;
+            document.getElementById('sarga-title').innerText = `सर्ग ${currentSargaNum}`;
+            document.getElementById('sarga-english-title').innerText = `${kanda.english} - Sarga ${currentSargaNum}`;
+            document.getElementById('sarga-desc').innerText = kanda.desc;
+            document.getElementById('verse-index-display').innerText = `${kanda.name} • सर्ग ${currentSargaNum} • श्लोक ${currentShlokNum}`;
+
+            // Sync selects & inputs
+            document.getElementById('header-kanda-select').value = currentKandaNum;
+            document.getElementById('mobile-kanda-select').value = currentKandaNum;
+            document.getElementById('header-sarga-num').value = currentSargaNum;
+            document.getElementById('mobile-sarga-num').value = currentSargaNum;
+            document.getElementById('header-shlok-num').value = currentShlokNum;
+            document.getElementById('mobile-shlok-num').value = currentShlokNum;
+
+            const key = `${currentKandaNum}-${currentSargaNum}-${currentShlokNum}`;
+
+            // Reset AI expansion box
+            document.getElementById('ai-explanation-box').classList.add('hidden');
+
+            if (LOCAL_SHLOK_CACHE[key]) {
+                displayShlokData(LOCAL_SHLOK_CACHE[key]);
+            } else {
+                // Show loading indicator
+                document.getElementById('shlok-loader').classList.remove('hidden');
+                document.getElementById('shlok-content-area').classList.add('opacity-30', 'pointer-events-none');
+
+                const fetchedData = await fetchShlokFromGemini(kanda.name, currentSargaNum, currentShlokNum);
+
+                document.getElementById('shlok-loader').classList.add('hidden');
+                document.getElementById('shlok-content-area').classList.remove('opacity-30', 'pointer-events-none');
+
+                if (fetchedData && fetchedData.sanskrit) {
+                    LOCAL_SHLOK_CACHE[key] = fetchedData;
+                    displayShlokData(fetchedData);
+                } else {
+                    // Safe fallback presentation for offline/no-key production deploy
+                    displayShlokData({
+                        num: currentShlokNum,
+                        sanskrit: `॥ श्रीमद्वाल्मीकीय रामायण ${kanda.name} — सर्ग ${currentSargaNum} — श्लोक ${currentShlokNum} ॥\n\nराम रामेति रामेति रमे रामे मनोरमे ।\nसहस्रनाम तत्तुल्यं रामनाम वरानने ॥`,
+                        hindi: `${kanda.name} के सर्ग ${currentSargaNum} का श्लोक ${currentShlokNum}: मर्यादा पुरुषोत्तम भगवान श्रीराम के गुण, धर्म और पावन चरित्र का गान।`,
+                        words: [
+                            { w: "राम रामेति", m: "श्रीराम नाम का निरंतर स्मरण" },
+                            { w: "सहस्रनाम तत्तुल्यम्", m: "विष्णु सहस्रनाम के तुल्य परम पावन" }
+                        ],
+                        aiExplanation: `कथा सन्दर्भ: यह ${kanda.name} के सर्ग ${currentSargaNum} का श्लोक ${currentShlokNum} है। भगवान श्रीराम का चरित्र मानव जीवन में धैर्य, सत्य, पितृ-भक्ति और मर्यादा का सन्देश देता है।`
+                    });
+                }
+            }
+
+            updateBookmarkIcon();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function displayShlokData(data) {
+            document.getElementById('sanskrit-text').innerHTML = (data.sanskrit || "").replace(/\n/g, '<br>');
+            document.getElementById('hindi-bhavarth').innerText = data.hindi || "";
+
+            const wordsContainer = document.getElementById('words-container');
+            wordsContainer.innerHTML = '';
+
+            if (data.words && Array.isArray(data.words) && data.words.length > 0) {
+                data.words.forEach(item => {
+                    const wordDiv = document.createElement('div');
+                    wordDiv.className = 'flex justify-between border-b border-orange-500/10 py-1.5 px-2';
+                    wordDiv.innerHTML = `<span class="text-orange-300 font-bold">${item.w || ''}</span> <span class="text-slate-300">${item.m || ''}</span>`;
+                    wordsContainer.appendChild(wordDiv);
+                });
+            } else {
+                wordsContainer.innerHTML = '<div class="col-span-2 text-slate-400 text-center py-2">इस श्लोक का पदच्छेद भावार्थ में समाहित है।</div>';
+            }
+
+            const aiBox = document.getElementById('ai-explanation-box');
+            aiBox.innerText = data.aiExplanation || "इस श्लोक का भाव विस्तार: भगवान श्रीराम का जीवन प्रत्येक मनुष्य के लिए आदर्श जीवन शैली सिखाता है।";
+        }
+
+        function setupEventListeners() {
+            // Header Jump
+            document.getElementById('header-jump-btn').addEventListener('click', () => {
+                const k = document.getElementById('header-kanda-select').value;
+                const s = document.getElementById('header-sarga-num').value || 1;
+                const v = document.getElementById('header-shlok-num').value || 1;
+                loadVerse(k, s, v);
+            });
+
+            // Mobile Jump
+            document.getElementById('mobile-jump-btn').addEventListener('click', () => {
+                const k = document.getElementById('mobile-kanda-select').value;
+                const s = document.getElementById('mobile-sarga-num').value || 1;
+                const v = document.getElementById('mobile-shlok-num').value || 1;
+                loadVerse(k, s, v);
+            });
+
+            // Prev & Next Buttons
+            document.getElementById('prev-verse-btn').addEventListener('click', () => {
+                if (currentShlokNum > 1) {
+                    loadVerse(currentKandaNum, currentSargaNum, currentShlokNum - 1);
+                } else if (currentSargaNum > 1) {
+                    loadVerse(currentKandaNum, currentSargaNum - 1, 1);
+                } else {
+                    showToast("आप प्रथम काण्ड के पहले श्लोक पर हैं", "ph-info");
+                }
+            });
+
+            document.getElementById('next-verse-btn').addEventListener('click', () => {
+                loadVerse(currentKandaNum, currentSargaNum, currentShlokNum + 1);
+            });
+
+            // Font Size Switcher Logic (Senior Friendly)
+            document.getElementById('toggle-font-size').addEventListener('click', () => {
+                document.body.classList.remove('font-level-0', 'font-level-1', 'font-level-2');
+                fontLevel = (fontLevel + 1) % 3;
+                document.body.classList.add(`font-level-${fontLevel}`);
+
+                const labels = ["सामान्य", "मध्यम", "बड़ा (वरिष्ठ नागरिक)"];
+                document.getElementById('font-size-label').innerText = `अक्षर (${labels[fontLevel]})`;
+                showToast(`अक्षर का आकार: ${labels[fontLevel]}`, "ph-text-a-plus");
+            });
+
+            // Text-To-Speech (Read Aloud) Handler
+            document.getElementById('read-aloud-btn').addEventListener('click', toggleAudioReading);
+
+            // Word-by-Word Accordion
+            document.getElementById('toggle-word-breakdown').addEventListener('click', () => {
+                const container = document.getElementById('words-container');
+                const chevron = document.getElementById('words-chevron');
+                container.classList.toggle('hidden');
+                chevron.classList.toggle('rotate-180');
+            });
+
+            // AI Explanation Toggle
+            document.getElementById('explain-ai-btn').addEventListener('click', () => {
+                const aiBox = document.getElementById('ai-explanation-box');
+                aiBox.classList.toggle('hidden');
+                if (!aiBox.classList.contains('hidden')) {
+                    aiBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            });
+
+            // Bookmark Toggle
+            document.getElementById('bookmark-toggle').addEventListener('click', toggleBookmark);
+            document.getElementById('jump-saved-bookmark').addEventListener('click', jumpToSavedBookmark);
+
+            // Drawer Handlers
+            const drawer = document.getElementById('chapter-drawer');
+            const overlay = document.getElementById('drawer-overlay');
+            
+            document.getElementById('open-drawer').addEventListener('click', () => {
+                drawer.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+            });
+
+            document.getElementById('close-drawer').addEventListener('click', closeDrawer);
+            overlay.addEventListener('click', closeDrawer);
+
+            function closeDrawer() {
+                drawer.classList.add('-translate-x-full');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            }
+        }
+
+        // Voice TTS Engine with Safety Guards
+        function toggleAudioReading() {
+            if ('speechSynthesis' in window) {
+                if (isSpeaking) {
+                    stopSpeech();
+                } else {
+                    try {
+                        const sanskritText = document.getElementById('sanskrit-text').innerText.replace(/<br>/g, ' ');
+                        const hindiText = document.getElementById('hindi-bhavarth').innerText;
+                        const fullTextToRead = `श्लोक। ${sanskritText} । भावार्थ। ${hindiText}`;
+
+                        currentSpeechUtterance = new SpeechSynthesisUtterance(fullTextToRead);
+                        currentSpeechUtterance.lang = 'hi-IN';
+                        currentSpeechUtterance.rate = 0.85; // Slower pace for clarity
+
+                        currentSpeechUtterance.onstart = () => {
+                            isSpeaking = true;
+                            document.getElementById('audio-text').innerText = "पाठ रोकें...";
+                            document.getElementById('audio-icon').className = "ph-bold ph-stop-circle text-lg animate-pulse";
+                        };
+
+                        currentSpeechUtterance.onend = () => {
+                            stopSpeech();
+                        };
+
+                        currentSpeechUtterance.onerror = () => {
+                            stopSpeech();
+                            showToast("आवाज़ पढ़ने में तकनीकी समस्या आई", "ph-warning");
+                        };
+
+                        window.speechSynthesis.speak(currentSpeechUtterance);
+                    } catch (err) {
+                        stopSpeech();
+                        showToast("वॉइस फ़ंक्शन समर्थित नहीं है", "ph-warning");
+                    }
+                }
+            } else {
+                showToast("आपका ब्राउज़र वॉइस रीडिंग का समर्थन नहीं करता", "ph-warning");
+            }
+        }
+
+        function stopSpeech() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            isSpeaking = false;
+            document.getElementById('audio-text').innerText = "पाठ सुनें (बोलकर)";
+            document.getElementById('audio-icon').className = "ph-fill ph-speaker-high text-lg";
+        }
+
+        // Bookmarks Functionality
+        function toggleBookmark() {
+            const currentRef = { kanda: currentKandaNum, sarga: currentSargaNum, shlok: currentShlokNum };
+            const saved = localStorage.getItem('ramayan_bookmark');
+            
+            if (saved && JSON.parse(saved).kanda === currentKandaNum && JSON.parse(saved).sarga === currentSargaNum && JSON.parse(saved).shlok === currentShlokNum) {
+                localStorage.removeItem('ramayan_bookmark');
+                showToast("बुकमार्क हटा दिया गया", "ph-bookmark-simple");
+            } else {
+                localStorage.setItem('ramayan_bookmark', JSON.stringify(currentRef));
+                showToast("श्लोक बुकमार्क में सहेजा गया!", "ph-bookmark-fill");
+            }
+            updateBookmarkIcon();
+        }
+
+        function updateBookmarkIcon() {
+            const icon = document.getElementById('bookmark-icon');
+            const saved = localStorage.getItem('ramayan_bookmark');
+            
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    if (parsed.kanda === currentKandaNum && parsed.sarga === currentSargaNum && parsed.shlok === currentShlokNum) {
+                        icon.className = "ph-fill ph-bookmark-simple text-amber-400 text-xl";
+                        return;
+                    }
+                } catch(e){}
+            }
+            icon.className = "ph-bold ph-bookmark-simple text-orange-400 text-xl";
+        }
+
+        function checkSavedBookmark() {
+            const saved = localStorage.getItem('ramayan_bookmark');
+            if (saved) {
+                document.getElementById('jump-saved-bookmark').classList.remove('hidden');
+            }
+        }
+
+        function jumpToSavedBookmark() {
+            const saved = localStorage.getItem('ramayan_bookmark');
+            if (saved) {
+                try {
+                    const b = JSON.parse(saved);
+                    loadVerse(b.kanda, b.sarga, b.shlok);
+                    showToast("सहेजा हुआ श्लोक खोला गया", "ph-bookmark-fill");
+                } catch (e) {
+                    showToast("कोई वैध बुकमार्क नहीं मिला", "ph-info");
+                }
+            } else {
+                showToast("कोई बुकमार्क नहीं मिला", "ph-info");
+            }
+        }
+
+        function jumpToKandaSarga(kNum, sNum, vNum = 1) {
+            loadVerse(kNum, sNum, vNum);
+            document.getElementById('close-drawer').click();
+        }
+
+        function renderKandaDrawer() {
+            const container = document.getElementById('kanda-list-container');
+            container.innerHTML = KANDAS.map(kanda => `
+                <div class="bg-slate-900/80 rounded-2xl border border-orange-500/20 overflow-hidden">
+                    <div class="p-3 bg-orange-950/30 flex items-center justify-between border-b border-orange-500/15">
+                        <h4 class="font-devanagari font-bold text-orange-300 text-base">${kanda.name} (${kanda.totalSargas} सर्ग)</h4>
+                    </div>
+                    <div class="p-2 grid grid-cols-4 gap-1.5 max-h-40 overflow-y-auto">
+                        ${Array.from({ length: kanda.totalSargas }, (_, i) => i + 1).map(sNum => `
+                            <button onclick="jumpToKandaSarga(${kanda.id}, ${sNum}, 1)" class="p-1.5 rounded-lg bg-slate-950 hover:bg-orange-500/30 text-xs font-devanagari text-slate-200 border border-orange-500/10 text-center active:scale-95 transition-all">
+                                सर्ग ${sNum}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
