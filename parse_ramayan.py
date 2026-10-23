@@ -5,48 +5,65 @@ import re
 pdf_path = "Shrimad Valmiki Ramayana (Hindi Edition) - Valmiki.pdf"
 output_json = "ramayana_data.json"
 
-# Define the data structure
 database = {}
 
-# Regex patterns (adjust these based on the exact PDF text formatting)
-# Matches "सर्ग १", "सर्ग २", etc.
-sarga_pattern = re.compile(r'सर्ग\s+(\d+)') 
-# Matches Shloka numbers like "॥१॥", "॥२॥"
-shloka_pattern = re.compile(r'॥(\d+)॥')
-
-current_kanda = 1 # Update manually or via regex if Kanda headers are clear
+current_kanda = 1
 current_sarga = 1
 
+print("PDF ko parse kiya ja raha hai, kripya intezaar karein...")
+
 with pdfplumber.open(pdf_path) as pdf:
-    full_text = ""
-    # Skip index pages; start from the actual text (e.g., page 50)
-    for page in pdf.pages[50:100]: 
+    for page_num, page in enumerate(pdf.pages):
         text = page.extract_text()
-        if text:
-            full_text += text + "\n"
+        if not text:
+            continue
+        
+        # Kandas ki pehchan ke liye keywords check karna
+        if "बालकाण्ड" in text:
+            current_kanda = 1
+        elif "अयोध्याकाण्ड" in text:
+            current_kanda = 2
+        elif "अरण्यकाण्ड" in text:
+            current_kanda = 3
+        elif "किष्किन्धाकाण्ड" in text:
+            current_kanda = 4
+        elif "सुन्दरकाण्ड" in text:
+            current_kanda = 5
+        elif "युद्धकाण्ड" in text or "लंकाकाण्ड" in text:
+            current_kanda = 6
+        elif "उत्तरकाण्ड" in text:
+            current_kanda = 7
 
-# Logic to split text into blocks based on Shloka markers
-shloka_blocks = shloka_pattern.split(full_text)
+        # Sarga number detect karne ke liye logic
+        sarga_match = re.search(r'सर्ग\s*[:\-]?\s*(\d+)', text)
+        if sarga_match:
+            current_sarga = int(sarga_match.group(1))
 
-# Example parsing logic to build the JSON dictionary
-# In a real scenario, you will need to tweak the string splitting to accurately separate Sanskrit, Padachhed, and Bhavarth.
-for i in range(1, len(shloka_blocks), 2):
-    shloka_num = int(shloka_blocks[i])
-    content = shloka_blocks[i+1].strip()
-    
-    # Generate the unique key (Kanda-Sarga-Shloka)
-    key = f"{current_kanda}-{current_sarga}-{shloka_num}"
-    
-    database[key] = {
-        "num": shloka_num,
-        "sanskrit": "Extracted Sanskrit Text", # Requires fine-tuned regex
-        "words": [], # Padachhed extraction
-        "hindi": "Extracted Hindi Bhavarth",
-        "aiExplanation": ""
-    }
+        # Shlokon ko extract karne ke liye lines ko process karna
+        lines = text.split('\n')
+        buffer_lines = []
+        
+        for line in lines:
+            shloka_match = re.search(r'॥\s*(\d+)\s*॥', line)
+            if shloka_match:
+                shloka_num = int(shloka_match.group(1))
+                buffer_lines.append(line)
+                full_text = " ".join(buffer_lines)
+                
+                key = f"{current_kanda}-{current_sarga}-{shloka_num}"
+                database[key] = {
+                    "num": shloka_num,
+                    "sanskrit": full_text,
+                    "words": [],
+                    "hindi": "Yahan Hindi bhavarth aayega.",
+                    "aiExplanation": "Mahatvapurna jeevan seekh aur katha sandarbh."
+                }
+                buffer_lines = []
+            else:
+                buffer_lines.append(line)
 
-# Save to JSON
+# JSON file mein save karna
 with open(output_json, 'w', encoding='utf-8') as f:
     json.dump(database, f, ensure_ascii=False, indent=4)
 
-print("JSON Database generated successfully.")
+print(f"Data successfully parse ho gaya hai aur '{output_json}' file ban gayi hai!")
